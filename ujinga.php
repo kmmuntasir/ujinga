@@ -12,7 +12,9 @@ $ujinga->routes->default->scriptUrl = "assets/ujinga/default.js";
 $ujinga->routes->default->path = "dashboard";
 
 
+$ujinga->routes->fourZeroFour = new stdClass();
 $ujinga->routes->fourZeroFour->scriptUrl = "assets/ujinga/fourZeroFour.js";
+$ujinga->routes->default->path = "404";
 
 //echo '<pre>';
 //print_r($ujinga);
