@@ -1,8 +1,0 @@
-{
-	"config": {
-		"baseUrl" : "http://localhost/ujinga/"
-	},
-	"routes": {
-		"stock"	: "stock"
-	}
-}

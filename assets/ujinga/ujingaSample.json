@@ -1,0 +1,9 @@
+{
+  "config": {
+    "baseUrl": "http://localhost/ujinga/",
+    "defaultJsUrl": "http://localhost/ujinga/assets/ujinga/default.js"
+  },
+  "routes": {
+    "default": "stock"
+  }
+}
