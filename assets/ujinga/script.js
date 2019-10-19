@@ -3,5 +3,5 @@ $(document).on('click', 'button', function() {
 });
 
 $(document).ready(function() {
-	alert("I'm ready!");
+    // alert("I'm ready!");
 });

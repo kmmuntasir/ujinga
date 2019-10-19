@@ -1,13 +1,14 @@
 let jQueryCdnUrl = "https://code.jquery.com/jquery-3.4.1.min.js";
-let ujingaUrl = "http://localhost/ujinga/assets/ujinga/ujinga.json";
 
 let ujinga = null;
 let logger = true;
 let caching = false;
 let init_timer = null;
 
-function log(messege) {
-  if(logger) {
+/******************* Master Functions ************************/
+
+function log(messege, forceLog = false) {
+    if (logger || forceLog) {
     console.log(messege);
     // ToDo: Add further action
   }
@@ -26,11 +27,11 @@ function ensureJquery() {
 
 function loadScript(scriptUrl=null, callback=null){
   log(`Pure JS Script Loading: ${scriptUrl}`);
-  var script = document.createElement("script")
+    var script = document.createElement("script");
   script.type = "text/javascript";
   if (script.readyState){  //IE
       script.onreadystatechange = function(){
-          if (script.readyState == "loaded" || script.readyState == "complete"){
+          if (script.readyState === "loaded" || script.readyState === "complete") {
               script.onreadystatechange = null;
               if(callback != null) callback();
           }
@@ -52,19 +53,15 @@ function checkJquery() {
 
 function getConfig() {
   log("Getting Config");
-  $.getJSON( ujingaUrl, function( ujingaConfig ) {
+    let ujingaUrlElement = $('a');
+    let ujingaUrl = ujingaUrlElement.prop("href");
+    ujingaUrlElement.remove();
+    getJson(ujingaUrl, function (ujingaConfig) {
     ujinga = ujingaConfig;
-    log(ujinga);
+        log(ujinga, true);
     router();
   });
   
-}
-
-function router() {
-  log(ujinga.config);
-  cacheScript("assets/ujinga/script.js").done(function(script) {
-    log("Cached Script: script.js");
-  });
 }
 
 function cacheScript ( scriptUrl, options ) {
@@ -77,8 +74,33 @@ function cacheScript ( scriptUrl, options ) {
   return $.ajax( options );
 }
 
-/*********************************************************************/
+/******************* API Call Functions **********************/
+
+function getJson(jsonUrl, callback) {
+    fetch(jsonUrl, function (response) {
+        let jsonData = $.parseJSON(response);
+        callback(jsonData);
+    });
+}
+
+function fetch(fetchUrl, callback) {
+    $.post(fetchUrl, function (response) {
+        callback(response);
+    });
+}
+
+/******************* Routing Functions ***********************/
+
+function router() {
+    cacheScript("assets/ujinga/script.js").done(function () {
+        log("Cached Script: script.js");
+        $('body').html('');
+    });
+}
+
+
+/******************* Huston, we got ignition  ****************/
 
 window.onload = function() {
   init();
-}
+};
